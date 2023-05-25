@@ -50,4 +50,4 @@ def plot_data(data, display_graph):
 
 print(two_column_text_read('t1_data'))
 print(energy_change(two_column_text_read('t1_data')))
-print(plot_data(two_column_text_read('t1_data'), True))  # True for graph, False to save png
+print(plot_data(two_column_text_read('t1_data'), False))  # True for graph, False to save png
