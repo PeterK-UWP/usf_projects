@@ -39,19 +39,19 @@ def energy_change(data):
 
 def enthalpy(data):
     energy = np.array(data[1])
-    pressure = np.array(data[2])
-    volume = np.array(data[3])
-    enthalpy_array = energy + pressure * volume
-    return enthalpy_array
+    pressure = np.array(data[2])*10**8
+    volume = np.array(data[3])*10**-30
+    enthalpy_array = energy + (pressure * volume) * 6.242*10**18
+    return enthalpy_array / 2
 
 
 def plot_data(data, enthalpy_data, display_graph):
     ionic_step_data = data[0]
     energy_data = data[1]
-    pressure_data = data[2]
-    xx_data = data[4]
-    yy_data = data[5]
-    zz_data = data[6]
+    pressure_data = data[2]*0.1
+    xx_data = data[4]*0.1
+    yy_data = data[5]*0.1
+    zz_data = data[6]*0.1
     plot_list = [[energy_data, enthalpy_data, pressure_data], [xx_data, yy_data, zz_data]]
     figure, axes = plt.subplots(nrows=2, ncols=3, layout='constrained')
     for row_index, row in enumerate(plot_list):
@@ -62,13 +62,13 @@ def plot_data(data, enthalpy_data, display_graph):
             axes[0][0].set_title('Energy per Ionic Step')
             axes[0][1].set_ylabel(r'$H$ (eV)')
             axes[0][1].set_title('Enthalpy per Ionic Step')
-            axes[0][2].set_ylabel(r'$P$ (kB)')
+            axes[0][2].set_ylabel(r'$P$ (Pa)')
             axes[0][2].set_title('Pressure/Ionic Step')
-            axes[1][0].set_ylabel(r'$P_{xx}$ (kB)')
+            axes[1][0].set_ylabel(r'$P_{xx}$ (GPa)')
             axes[1][0].set_title('XX Pressure per Ionic Step')
-            axes[1][1].set_ylabel(r'$P_{yy}$ (kB)')
+            axes[1][1].set_ylabel(r'$P_{yy}$ (GPa)')
             axes[1][1].set_title('YY Pressure/Ionic Step')
-            axes[1][2].set_ylabel(r'$P_{zz}$ (kB)')
+            axes[1][2].set_ylabel(r'$P_{zz}$ (GPa)')
             axes[1][2].set_title('ZZ Pressure/Ionic Step')
     #plt.tight_layout()
     if display_graph:
@@ -80,4 +80,5 @@ def plot_data(data, enthalpy_data, display_graph):
 
 #print(column_text_read('t2_data'))
 #print(energy_change(column_text_read('t2_data')))
+print(enthalpy(column_text_read('t2_data')))
 print(plot_data(column_text_read('t2_data'), enthalpy(column_text_read('t2_data')), False))  # True for graph, False to save png
