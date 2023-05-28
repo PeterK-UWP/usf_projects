@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+"""
+This code read in t1 data and outputs the change in energy at each ionic step, 
+as well as plotting Energy per atom against each step.
+"""
 
 def two_column_text_read(file_name):
     try:

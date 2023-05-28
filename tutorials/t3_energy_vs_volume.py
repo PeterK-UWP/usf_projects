@@ -1,6 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
-
+"""
+This code reads t3 data outputs the energy change between each ionic step, calculates enthalpy, and normalizes 
+the energy and volume to be used for the EoS plot.
+"""
 
 def column_text_read(file_name):
     try:
@@ -39,95 +41,30 @@ def energy_change(data):
     return change_list
 
 
-def enthalpy_check(data):  # units dont match
+def enthalpy(data):  # units dont match
     energy = np.array(data[1])
-    pressure = np.array(data[2])
-    volume = np.array(data[3])
-    theoretical_enthalpy_array = energy + pressure * volume
-    calculated_enthalpy = data[8]
-    return theoretical_enthalpy_array, calculated_enthalpy
+    pressure = (np.array(data[2]) + np.array(data[3]))*10**8  # Pa
+    volume = np.array(data[4])*10**-30  # m^3
+    theoretical_enthalpy_array = energy + (pressure * volume) * 6.242*10**18  # eV
+    # calculated_enthalpy = data[8] / 2 error and inconsistent in VASP
+    return theoretical_enthalpy_array / 2  # eV/atom
 
 
-def plot_data(data, display_graph):
-    ionic_step_data = data[0]
-    energy_data = data[1]
-    pressure_data = data[2]
-    volume_data = data[4]
-    xx_data = data[5]
-    yy_data = data[6]
-    zz_data = data[7]
-    enthalpy_data = data[8]
-    plot_list_step = [[energy_data, enthalpy_data, pressure_data, volume_data, enthalpy_data],
-                      [xx_data, yy_data, zz_data, energy_data, pressure_data]]
-    plot_list_volume = [energy_data, enthalpy_data, pressure_data]
-    figure, axes = plt.subplots(nrows=2, ncols=5, layout='constrained')
-    for row_index, row in enumerate(plot_list_step):
-        for column_index, column in enumerate(row):
-
-
-            axes[row_index][column_index].plot(ionic_step_data, column)  # setting x axis, go across first then next line
-            axes[row_index][column_index].set_xlabel('Ionic Step')
-            axes[0][0].set_ylabel(r'$E$ (eV/atom)')
-            axes[0][0].set_title('Energy per Ionic Step')
-            axes[0][1].set_ylabel(r'$H$ (eV)')
-            axes[0][1].set_title('Enthalpy per Ionic Step')
-            axes[0][2].set_ylabel(r'$P$ (kB)')
-            axes[0][2].set_title('Pressure/Ionic Step')
-            axes[0][3].set_ylabel(r'$V$ ($A$)')
-            axes[0][3].set_title('Volume/Ionic Step')
-            axes[1][0].set_ylabel(r'$P_{xx}$ (kB)')
-            axes[1][0].set_title('XX Pressure per Ionic Step')
-            axes[1][1].set_ylabel(r'$P_{yy}$ (kB)')
-            axes[1][1].set_title('YY Pressure/Ionic Step')
-            axes[1][2].set_ylabel(r'$P_{zz}$ (kB)')
-            axes[1][2].set_title('ZZ Pressure/Ionic Step')
-
-            axes[0][4].plot(volume_data,enthalpy_data)  # setting x axis
-            axes[0][4].set_xlabel('$V$ $A$/atom')
-            axes[1][3].plot(volume_data, energy_data)  # setting x axis
-            axes[1][3].set_xlabel('$V$ $A$/atom')
-            axes[1][4].plot(volume_data, pressure_data)  # setting x axis
-            axes[1][4].set_xlabel('$V$ $A$/atom')
-
-            axes[0][4].set_ylabel(r'$H$ (eV)')
-            axes[0][4].set_title('Enthalpy per Volume')
-            axes[1][3].set_ylabel(r'$E$ (eV)')
-            axes[1][3].set_title('Energy per Volume')
-            axes[1][4].set_ylabel(r'$P$ (kB)')
-            axes[1][4].set_title('Pressure per Volume')
-
-            """
-    for row_index, row in enumerate(plot_list_volume):
-        axes[row_index].plot(volume_data, row)
-        axes.set_xlabel('$V$ $A$/atom')
-        axes[0][4].set_ylabel(r'$H$ (eV)')
-        axes[0][4].set_title('Enthalpy per Volume')
-        axes[1][3].set_ylabel(r'$E$ (eV)')
-        axes[1][3].set_title('Energy per Volume')
-        axes[1][4].set_ylabel(r'$P$ (kB)')
-        axes[1][4].set_title('Pressure per Volume')
-        ~~
-        for column in enumerate(row):
-            
-            axes[row_index1][column_index1].plot(volume_data, column1)  # setting x axis
-            axes[row_index1][column_index1].set_xlabel('$V$ $A$/atom')
-            axes[0][4].set_ylabel(r'$H$ (eV)')
-            axes[0][4].set_title('Enthalpy per Volume')
-            axes[1][3].set_ylabel(r'$E$ (eV)')
-            axes[1][3].set_title('Energy per Volume')
-            axes[1][4].set_ylabel(r'$P$ (kB)')
-            axes[1][4].set_title('Pressure per Volume')
-"""
-    #plt.tight_layout()
-    if display_graph:
-        plt.show()
-    elif not display_graph:
-        plt.savefig("t3_energy_vs_volume.png")
-    return
+def energy_volume(data):
+    energy = np.array(data[1]) # eV
+    volume = np.array(data[4]) # A^3
+    normalized_energy = energy / 2  # eV/atom
+    normalized_volume = volume / 2  # A^3/atom
+    normalized_data = normalized_volume, normalized_energy
+    return normalized_data
 
 
 #print(column_text_read('t3_data'))
 #print(energy_change(column_text_read('t3_data')))
-print(plot_data(column_text_read('t3_data'), True),
-      enthalpy_check(column_text_read('t3_data'))
-      )
+print(f'volume, energy:')
+print(energy_volume(column_text_read('t3_data')))
+print(f'does the pressure reduce to 5 GPa')
+print(f'yes 50.00 kB converts to 5 GPa')
+print('calculated enthalpy data is:')
+print(enthalpy(column_text_read('t3_data')))
+

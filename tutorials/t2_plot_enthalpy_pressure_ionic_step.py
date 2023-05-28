@@ -1,5 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
+"""
+this code read t2 data outputs the energy change between each ionic step, calculates the enthalpy from H = U + PV
+and then plots 6 graphs: energy, enthalpy, pressure, xx pressure, yy pressure, and zz pressure against each
+ionic step
+"""
 
 
 def column_text_read(file_name):
@@ -38,11 +43,11 @@ def energy_change(data):
 
 
 def enthalpy(data):
-    energy = np.array(data[1])
-    pressure = np.array(data[2])*10**8
-    volume = np.array(data[3])*10**-30
-    enthalpy_array = energy + (pressure * volume) * 6.242*10**18
-    return enthalpy_array / 2
+    energy = np.array(data[1])  # eV
+    pressure = np.array(data[2])*10**8  # Pa
+    volume = np.array(data[3])*10**-30  # m^3
+    enthalpy_array = energy + (pressure * volume) * 6.242*10**18  # eV
+    return enthalpy_array / 2  # eV / atom
 
 
 def plot_data(data, enthalpy_data, display_graph):

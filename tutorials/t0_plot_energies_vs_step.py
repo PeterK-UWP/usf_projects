@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+"""
+This code reads t0 data and outputs the energy per atom against the scf steps
+"""
 
 def two_column_text_read(file_name):
     try:
