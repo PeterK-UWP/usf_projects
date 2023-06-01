@@ -25,9 +25,9 @@ def column_text_read(file_name):
 
     for line in content:
         elements = line.split()
-        data[0, n] = float(elements[0])  #volume/2 A^3
-        data[1, n] = float(elements[1])  #energy/2 eV
-        data[2, n] = float(elements[2])  #enthalpy eV
+        data[0, n] = float(elements[0])  #volume A^3/atom
+        data[1, n] = float(elements[1])  #energy/2 eV/atom
+        data[2, n] = float(elements[2])  #enthalpy eV/atom
         data[3, n] = float(elements[3])  #total pressure GPa
         data[4, n] = float(elements[4])  #lat a
         data[5, n] = float(elements[5])  #lat b
@@ -52,9 +52,9 @@ def plot_graphs(data, display_graph):
             axes[row_index][column_index].set_xlabel('Total_pressure (Gpa)')
             axes[0][0].set_ylabel(r'$V$ (A^3/atom)')
             axes[0][0].set_title('Volume v Total_Pressure')
-            axes[0][1].set_ylabel(r'$E$ (eV)')
+            axes[0][1].set_ylabel(r'$E$ (eV/atom)')
             axes[0][1].set_title('Energy v Total_Pressure')
-            axes[0][2].set_ylabel(r'$H$ (eV)')
+            axes[0][2].set_ylabel(r'$H$ (eV/atom)')
             axes[0][2].set_title('Enthalpy v Total_Pressure')
             axes[1][0].set_ylabel('lattice vector a')
             axes[1][0].set_title('lattice a v Total_Pressure')

@@ -18,4 +18,4 @@ def bivariate_statistics(data):
 
 if __name__ == '__main__':
     from two_column_text_read import two_column_text_read
-    print(bivariate_statistics(two_column_text_read('volume_energy_C')))
+    print(bivariate_statistics(two_column_text_read('energy_volume_Diamond')))

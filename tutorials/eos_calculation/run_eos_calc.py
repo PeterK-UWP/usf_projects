@@ -19,7 +19,7 @@ def parse_file_name(file_name):
     return symbol, structure, acronym  # 1
 
 
-file_name = "volume_energy_C"
+file_name = "pres_vs_vol_Diamond_expansion"
 #symbol, structure, acronym = parse_file_name(file_name)
 array = two_column_text_read(file_name)  # 2
 statistics = bivariate_statistics(array)  # 4
@@ -97,7 +97,7 @@ y_max = (0.003)  # (max(array_2[1]) + (max(array_2[0]) * 0.00010))
 plt.xlim(x_min, x_max)
 #plt.ylim(y_min, y_max)
 plt.xlabel(r'$V$ (Å$^3$/atom)')
-plt.ylabel(r'$E$ (eV/atom)')
+plt.ylabel(r'$P$ (GPa)')
 bulk_modulus_gpa = convert_units(bulk_modulus, "rb/cb")  # 7
 eq_vol = fit_parameters[3]  # array_2[0][array_2[1].index(min(array_2[1]))]
 array[1] = array[1] - fit_parameters[0]
@@ -113,4 +113,4 @@ plt.tight_layout()
 if display_graph:
     plt.show()  # fix something above^^
 elif not display_graph:
-    plt.savefig("ev_of_carbon_.murnaghan_eos.png")
+    plt.savefig("pv_of_diamond_expansion.murnaghan_eos.png")
