@@ -14,3 +14,8 @@ def bivariate_statistics(data):
     statistics = np.array([mean_of_y, standard_deviation_of_y, x_min, x_max, y_min, y_max])
 
     return statistics
+
+
+if __name__ == '__main__':
+    from two_column_text_read import two_column_text_read
+    print(bivariate_statistics(two_column_text_read('volume_energy_C')))

@@ -19,3 +19,6 @@ def two_column_text_read(file_name):
         n += 1
 
     return data
+
+if __name__ == '__main__':
+    print(two_column_text_read('volume_energy_C'))

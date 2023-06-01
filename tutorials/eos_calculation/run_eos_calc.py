@@ -19,8 +19,8 @@ def parse_file_name(file_name):
     return symbol, structure, acronym  # 1
 
 
-file_name = "../data/Ti.P6_3mmc.PBEsol.volume_totalenergy.txt"
-symbol, structure, acronym = parse_file_name(file_name)
+file_name = "volume_energy_C"
+#symbol, structure, acronym = parse_file_name(file_name)
 array = two_column_text_read(file_name)  # 2
 statistics = bivariate_statistics(array)  # 4
 quadratic_coefficients = quadratic_fit(array)  # 5
@@ -113,4 +113,4 @@ plt.tight_layout()
 if display_graph:
     plt.show()  # fix something above^^
 elif not display_graph:
-    plt.savefig("Ti.P6_3mmc.PBEsol.volume_total_energy.murnaghan_eos.png")
+    plt.savefig("ev_of_carbon_.murnaghan_eos.png")
