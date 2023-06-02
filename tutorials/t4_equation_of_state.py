@@ -1,5 +1,4 @@
-#data:
-#V E H TotP a, b, c
+
 
 import numpy as np
 import matplotlib.pyplot as plt
