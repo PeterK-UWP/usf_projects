@@ -11,28 +11,34 @@ def two_column_text_read(file_name):
         return
 
     content = file.readlines()
-    data = np.zeros([2, (len(content))], float)
+    data = np.zeros([3, (len(content))], float)
     n = 0
 
     for line in content:
         elements = line.split()
         data[0, n] = float(elements[0])
         data[1, n] = float(elements[1])
+        data[2, n] = float(elements[2])
+
         n += 1
 
     return data
 
 
 def plot_data(data):
-    volume = data[0]
-    pressure = data[1]
-    plt.plot(volume, pressure)
-    plt.scatter(volume, pressure)
-    plt.xlabel("volume")
-    plt.ylabel("pressure")
-    plt.title("press vs vol")
-    plt.legend('Press')
+    timestep = data[0]
+    temp = data[1]
+    press = data[2]
+    plt.plot(timestep, temp)
+    plt.plot(timestep, press)
+    plt.scatter(timestep, temp)
+    plt.scatter(timestep, press)
+    plt.xlabel("timestep")
+    plt.ylabel("data")
+    plt.title("temp & pressure vs timestep")
+    plt.legend(['Temp', 'Press'])
     plt.show()
+
     return
 
 
@@ -51,6 +57,5 @@ def bivariate_statistics(data):
 
 
 if __name__ == '__main__':
-    print(bivariate_statistics(two_column_text_read('vol_press_data')))
-
-    print(plot_data(two_column_text_read('vol_press_data')))
+    #print(bivariate_statistics(two_column_text_read('step_temp_press')))
+    print(plot_data(two_column_text_read('step_temp_press')))
