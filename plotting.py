@@ -10,37 +10,74 @@ def data_read(filename):
         return
 
     content = file.readlines()
-    data = np.zeros([3, (len(content))], float)
+    number_of_data_sets = len(content[0].split())
+    data = np.zeros([number_of_data_sets, (len(content))], float)
     n = 0
 
     for line in content:
         elements = line.split()
-        # nodes t1 t1/tN
-        data[0, n] = float(elements[0])
-        data[1, n] = float(elements[1])
-        data[2, n] = float(elements[2])
-
+        for i in range(0, number_of_data_sets):
+            data[i, n] = float(elements[i])
         n += 1
     return data
 
 
-print(data_read("data.txt"))
-plt.plot(data_read("data.txt")[0], data_read("data.txt")[1])
-plt.scatter(data_read("data.txt")[0], data_read("data.txt")[1])
-plt.title("Time of Computation vs Nodes")
-plt.xlabel("nodes")
-plt.ylabel("Time (sec)")
-plt.savefig("scaling_graph")
-plt.show()
-plt.plot(data_read("data.txt")[0], data_read("data.txt")[2])
-plt.scatter(data_read("data.txt")[0], data_read("data.txt")[2])
+def plot_all_data(full_data_array, x_index, x_label, y_label, title, labels):
+    # test if the x_index is in the full_data_array
+    try:
+        full_data_array[x_index]
+    except IndexError:
+        print("x_index doesn't exist!")
 
-x = np.linspace(0, 150, 10)
-y = x
-plt.plot(x, y)
-plt.title("Effectiveness(t1/tN) vs Nodes")
-plt.xlabel("nodes")
-plt.ylabel("Time (sec)")
-plt.legend(["y=x", "effectiveness_curve"])
-plt.savefig("strong_scaling_graph")
-plt.show()
+    x_values = full_data_array[x_index]  # need a universal x axis
+    # redefine the y values
+    for i in range(0, len(full_data_array)):
+        if i != x_index:
+            y_values = full_data_array[i]
+            plt.plot(x_values, y_values, label=labels[i])  # this excludes the x_label
+            plt.scatter(x_values, y_values)
+            plt.xlabel(x_label)
+            plt.ylabel(y_label)
+            plt.title(title)
+            # print(y_values)
+        else:
+            continue
+    plt.legend()
+    plt.show()
+    # plt.savefig(title)
+    return print('combined graph produced')
+
+
+def plot_separate_data(full_data_array, x_index_value, y_index_value, x_label, y_label, title):
+    plt.plot(full_data_array[x_index_value], full_data_array[y_index_value], label=y_label)
+    plt.scatter(full_data_array[x_index_value], full_data_array[y_index_value])
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.title(title)
+    plt.legend()
+    plt.show()
+    # plt.savefig(title)
+    return print('specific plot created')
+
+
+if __name__ == "__main__":
+    """
+    # this first statement confirms your data set as an input
+    print(data_read("y=x^2"))
+    
+    # this second call plots all data against one set of data according to the x_index value.
+    # use the label array for the legend outputs
+    label_array = ['x', 'y^2', 'y^3']
+    print(plot_all_data(data_read("y=x^2"), 0, "x-axis", "y-axis", "y=x^2&y=x^3", label_array))
+
+    # this last call can plot any two data sets together given their index values
+    print(plot_separate_data(data_read("y=x^2"), 0, 1, "y^3", "x", "y^3 vs x"))
+    """
+    print(data_read("data.txt"))
+
+    label_array = ['nodes', 'time/node', 't1/tN']
+    print(plot_all_data(data_read("data.txt"), 0, "no. nodes", "time", "Effectiveness", label_array))
+
+    print(plot_separate_data(data_read("data.txt"), 0, 1, "nodes", "t1", "time per node"))
+
+
