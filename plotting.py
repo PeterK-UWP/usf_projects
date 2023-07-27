@@ -42,20 +42,29 @@ def plot_all_data(full_data_array, x_index, x_label, y_label, title, labels):
             # print(y_values)
         else:
             continue
+
     plt.legend()
-    plt.show()
+    # plt.show()
     # plt.savefig(title)
     return print('combined graph produced')
 
 
-def plot_separate_data(full_data_array, x_index_value, y_index_value, x_label, y_label, title):
-    plt.plot(full_data_array[x_index_value], full_data_array[y_index_value], label=y_label)
-    plt.scatter(full_data_array[x_index_value], full_data_array[y_index_value])
+def plot_separate_data(full_data_array, x_index_value, y_index_value, x_label, y_label, title, windows):
+    # Running average inclusion
+    average_y_values = []
+    for j in range(len(full_data_array[y_index_value]) - windows + 1):
+        average_y_values.append(np.mean(full_data_array[y_index_value][j:j + windows]))
+    for j in range(windows - 1):
+        average_y_values.insert(0, np.nan)
+    plt.plot(full_data_array[x_index_value], average_y_values, 'k.-', label='running average')
+    plt.plot(full_data_array[x_index_value], full_data_array[y_index_value], 'b.-', label=y_label)
+
+    # plt.scatter(full_data_array[x_index_value], full_data_array[y_index_value])
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(title)
     plt.legend()
-    plt.show()
+    # plt.show()
     # plt.savefig(title)
     return print('specific plot created')
 
@@ -73,11 +82,16 @@ if __name__ == "__main__":
     # this last call can plot any two data sets together given their index values
     print(plot_separate_data(data_read("y=x^2"), 0, 1, "y^3", "x", "y^3 vs x"))
     """
-    print(data_read("data.txt"))
+    print(data_read("y=x^2"))
 
-    label_array = ['nodes', 'time/node', 't1/tN']
-    print(plot_all_data(data_read("data.txt"), 0, "no. nodes", "time", "Effectiveness", label_array))
+    #label_array = ['nodes', 'time/node', 't1/tN']
+    #print(plot_all_data(data_read("data.txt"), 0, "no. nodes", "time", "Effectiveness", label_array))
 
-    print(plot_separate_data(data_read("data.txt"), 0, 1, "nodes", "t1", "time per node"))
+    #print(plot_separate_data(data_read("data.txt"), 0, 1, "nodes", "t1", "time per node"))
+    print(plot_separate_data(data_read("y=x^2"), 0, 1, 'x', 'y', 'y=x^2', 5))
+    #print(running_average(data_read("y=x^2"), 5))
+    #label_array = ['x', 'y^2', 'y^3', 'run_avg']
+
+    #print(plot_all_data(running_average(data_read("y=x^2"), 5), 0, "x", "y", "y=x^2", label_array))
 
 
