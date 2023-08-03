@@ -1,8 +1,13 @@
 # This code shall produce a graph of the potential energy per atom vs the z axis, using binning techniques.
 import numpy as np
 import matplotlib.pyplot as plt
-
-
+from plotting import data_read, plot_all_data
+labels = ["z-direction", "$PE (eV/atom)$"]
+plot_all_data(data_read("T2_bin_v_pe"), 0, "z_direction (bin number)", "$PE$ (eV/atom)", "Potential Energy vs sample length", labels)
+plt.grid()
+plt.savefig("T2_pe_vs_bin")
+#plt.show()
+"""
 def two_column_text_read(file_name):
     try:
         file = open(file_name)
@@ -42,3 +47,4 @@ if __name__ == "__main__":
     ########################
     #Tutorial 2
     #print(plot_data(two_column_text_read('T2_bin_v_pe')))
+"""
