@@ -2,9 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #print(plt.style.available)
-#plt.style.use('grayscale')
+#plt.style.use('classic')
 # '_classic_test_patch', 'bmh', 'classic', 'fast', 'ggplot',
 # 'grayscale', 'seaborn-v0_8-talk', 'seaborn-v0_8-paper', bold axis, bold title,
+
+
 def data_read(filename):
     try:
         file = open(filename)
@@ -53,19 +55,22 @@ def plot_all_data(full_data_array, x_index, x_label, y_label, title, labels):
     return print('combined graph produced')
 
 
-def plot_separate_data(full_data_array, x_index_value, y_index_value, x_label, y_label, title, windows):
+def plot_separate_data(full_data_array, x_index_value, y_index_value, x_label, y_label, title): #, windows):
     # Running average inclusion
+    """
     average_y_values = []
     for j in range(len(full_data_array[y_index_value]) - windows + 1):
         average_y_values.append(np.mean(full_data_array[y_index_value][j:j + windows]))
     for j in range(windows - 1):
         average_y_values.insert(0, np.nan)
 
+    plt.plot(full_data_array[x_index_value], average_y_values, 'k.-', label='running average')
+    # color='k', linestyle='-', marker='.', linewidth=3
+    """
     plt.plot(full_data_array[x_index_value], full_data_array[y_index_value], 'b.-', label=y_label)
     # color='b', linestyle='-', marker='.',
 
-    plt.plot(full_data_array[x_index_value], average_y_values, 'k.-', label='running average')
-    # color='k', linestyle='-', marker='.', linewidth=3
+
 
     # plt.scatter(full_data_array[x_index_value], full_data_array[y_index_value])
     plt.xlabel(x_label, fontsize=18)
