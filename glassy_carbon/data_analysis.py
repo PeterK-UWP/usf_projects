@@ -118,6 +118,7 @@ print(f'average_temp: {full_array[3]}')
 #x = np.arange(0, 10, 1)
 #y = 3.6*x**2 + 11
 #plt.plot(x, y, color='y')
+
 #plot_separate_data(full_array, 0, 2, "$v_p (km/s)$", "$P_{zz} (GPa)$", "Average Pressure vs Piston Velocity")
 #plt.show()
 #plt.savefig('Pressure vs Piston Velocity')
